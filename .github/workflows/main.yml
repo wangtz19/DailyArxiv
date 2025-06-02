@@ -17,12 +17,12 @@ jobs:
       - name: Run script
         env:
           SEND_EMPTY: ${{ vars.SEND_EMPTY }}
-          MAX_RESULTS: ${{ secrets.MAX_RESULTS }}
-          ARXIV_KEYWORD: ${{ secrets.ARXIV_QUERY }}
-          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SENDER: ${{ secrets.SENDER }}
-          RECEIVER: ${{ secrets.RECEIVER }}
+          MAX_RESULTS: ${{ vars.MAX_RESULTS }}
+          ARXIV_KEYWORD: ${{ vars.ARXIV_QUERY }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER }}
+          SMTP_PORT: ${{ vars.SMTP_PORT }}
+          SENDER: ${{ vars.SENDER }}
+          RECEIVER: ${{ vars.RECEIVER }}
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
         run: |
           pip3 install -r requirements.txt
