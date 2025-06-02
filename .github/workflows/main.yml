@@ -18,7 +18,7 @@ jobs:
         env:
           SEND_EMPTY: ${{ vars.SEND_EMPTY }}
           MAX_RESULTS: ${{ vars.MAX_RESULTS }}
-          ARXIV_KEYWORD: ${{ vars.ARXIV_QUERY }}
+          ARXIV_KEYWORD: ${{ vars.ARXIV_KEYWORD }}
           SMTP_SERVER: ${{ vars.SMTP_SERVER }}
           SMTP_PORT: ${{ vars.SMTP_PORT }}
           SENDER: ${{ vars.SENDER }}
