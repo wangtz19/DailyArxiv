@@ -9,10 +9,13 @@ from construct_email import render_email, send_email
 from loguru import logger
 
 
-def get_arxiv_paper(keyword: str, max_results: 10, ):
+def get_arxiv_paper(keyword: str, max_results: int=10, ):
     client = arxiv.Client(num_retries=10, delay_seconds=10)
+    query = f'(ti:"{keyword}" OR abs:"{keyword}") AND (cat:cs.AI OR cat:cs.LG OR cat:cs.DC OR cat:cs.NI OR cat:cs.PF)'
+    logger.info(f"Searching query: {query}")
+    logger.info(f"Max results: {max_results}")
     search = arxiv.Search(
-        query=f'(ti:"{keyword}" OR abs:"{keyword}") AND (cat:cs.AI OR cat:cs.LG OR cat:cs.DC OR cat:cs.NI OR cat:cs.PF)',
+        query=query,
         max_results=max_results,
         sort_by=arxiv.SortCriterion.LastUpdatedDate
     )
