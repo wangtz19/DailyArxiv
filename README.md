@@ -18,13 +18,13 @@ Our codes are adapted from [Zetero-arXiv-Daily](https://github.com/TideDra/zoter
 |SMTP_PORT|Variable|✅|int|The port for SMTP server| 465 |
 |SENDER|Variable|✅|str|The email account of the SMTP server for sending emails| xx@example.com |
 |SENDER_PASSWORD|Secret|✅|str|Password of the sender account| abcdefgh |
-|RECIVER|Variable|✅|str|The email account to received emails containing searched papers| yy@example.com |
+|RECEIVER|Variable|✅|str|The email account to received emails containing searched papers| yy@example.com |
 |SEND_EMPTY|Variable|❌|bool|Whether to send an email when no results are retrieved | true |
 |MAX_RESULTS|Variable|❌|int| The maximum number of papers to send | 10 |
 > Above variables can be set via `Settings > Secrets and variables > Actions > Secrets/Variables > New repository secret/variable`.
 
 ### 🖥️ Local Running
-- Prepaire environments
+- Prepare environments
     ```shell
     pip install -r requirements.txt
     ```
