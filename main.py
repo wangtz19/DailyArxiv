@@ -58,15 +58,15 @@ def add_argument(*args, **kwargs):
 
 if __name__ == '__main__':
     add_argument('--max_results', type=int, help='Maximum number of papers to recommend for each keyword', default=10)
-    add_argument('--arxiv_keywords', type=str, required=True,
+    add_argument('--arxiv_keywords', type=str,
                  help='Keywords to search for in the arxiv papers, separated by commas. ')
     add_argument('--arxiv_categories', type=str, default='cs.AI,cs.LG,cs.DC,cs.NI,cs.PF',
                  help='Categories to search for in the arxiv papers, separated by commas. Default is cs.AI,cs.LG,cs.DC,cs.NI,cs.PF.')
-    add_argument('--smtp_server', type=str, required=True, help='SMTP server')
-    add_argument('--smtp_port', type=int, required=True, help='SMTP port')
-    add_argument('--sender', type=str, required=True, help='Sender email address')
-    add_argument('--receiver', type=str, required=True, help='Receiver email address')
-    add_argument('--sender_password', type=str, required=True, help='Sender email password')
+    add_argument('--smtp_server', type=str, help='SMTP server')
+    add_argument('--smtp_port', type=int, help='SMTP port')
+    add_argument('--sender', type=str, help='Sender email address')
+    add_argument('--receiver', type=str, help='Receiver email address')
+    add_argument('--sender_password', type=str, help='Sender email password')
     args = parser.parse_args()
     
     logger.remove()
