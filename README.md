@@ -13,13 +13,13 @@ Our codes are adapted from [Zetero-arXiv-Daily](https://github.com/TideDra/zoter
 
 |Key|Env Type|Required|Data Type|Description|Example|
 |-|-|-|-|-|-|
-|ARXIV_KEYWORD|Variable|✅|str|The interested keywords for searching papers|Network Traffic Classification|
+|ARXIV_KEYWORDS|Variable|✅|str|The interested keywords for searching papers|network traffic, datacenter network, llm training|
+|ARXIV_CATEGORIES|Variable|❌|str|The interested categories for searching papers, refer to [arxiv taxonomy](https://arxiv.org/category_taxonomy) to find your abbr.|cs.AI,cs.LG,cs.DC,cs.NI,cs.PF|
 |SMTP_SERVER|Variable|✅|str|The SMTP server for sending emails|smtp.feishu.cn|
 |SMTP_PORT|Variable|✅|int|The port for SMTP server| 465 |
 |SENDER|Variable|✅|str|The email account of the SMTP server for sending emails| xx@example.com |
 |SENDER_PASSWORD|Secret|✅|str|Password of the sender account| abcdefgh |
 |RECEIVER|Variable|✅|str|The email account to received emails containing searched papers| yy@example.com |
-|SEND_EMPTY|Variable|❌|bool|Whether to send an email when no results are retrieved | true |
 |MAX_RESULTS|Variable|❌|int| The maximum number of papers to send | 10 |
 > Above variables can be set via `Settings > Secrets and variables > Actions > Secrets/Variables > New repository secret/variable`.
 
@@ -32,7 +32,8 @@ Our codes are adapted from [Zetero-arXiv-Daily](https://github.com/TideDra/zoter
     ```shell
     python main.py \
         --max_results <max_results> \
-        --arxiv_keyword <arxiv_keyword> \
+        --arxiv_keywords <arxiv_keywords> \
+        --arxiv_categories <arxiv_categories> \
         --smtp_server <smtp_server> \
         --smtp_port <smtp_port> \
         --sender <sender> \
