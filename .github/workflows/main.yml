@@ -16,9 +16,9 @@ jobs:
 
       - name: Run script
         env:
-          SEND_EMPTY: ${{ vars.SEND_EMPTY }}
           MAX_RESULTS: ${{ vars.MAX_RESULTS }}
-          ARXIV_KEYWORD: ${{ vars.ARXIV_KEYWORD }}
+          ARXIV_KEYWORDS: ${{ vars.ARXIV_KEYWORDS }}
+          ARXIV_CATEGORIES: ${{ vars.ARXIV_CATEGORIES }}
           SMTP_SERVER: ${{ vars.SMTP_SERVER }}
           SMTP_PORT: ${{ vars.SMTP_PORT }}
           SENDER: ${{ vars.SENDER }}

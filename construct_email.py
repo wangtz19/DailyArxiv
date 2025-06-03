@@ -6,6 +6,7 @@ from email.utils import parseaddr, formataddr
 import smtplib
 import datetime
 from loguru import logger
+from typing import Dict
 
 
 framework = """
@@ -40,19 +41,19 @@ def get_empty_html():
   return block_template
 
 
-def get_block_html(title: str, authors: str, updated: str, arxiv_id: str, abstract: str, pdf_url: str):
+def get_block_html(idx: int, title: str, authors: str, keyword: str, updated: str, arxiv_id: str, abstract: str, pdf_url: str):
     block_template = """
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: Arial, sans-serif; border: 1px solid #ddd; border-radius: 8px; padding: 16px; background-color: #f9f9f9;">
     <tr>
         <td style="font-size: 20px; font-weight: bold; color: #333;">
-            {title}
+            ({idx}) {title}
         </td>
     </tr>
     <tr>
         <td style="font-size: 14px; color: #666; padding: 8px 0;">
             {authors}
             <br>
-            <i>{updated}</i>
+            <span><strong>Keyword: </strong><i>{keyword}</i> &nbsp;|&nbsp; <strong>Updated time: </strong><i>{updated}</i></span>
         </td>
     </tr>
     <tr>
@@ -73,22 +74,30 @@ def get_block_html(title: str, authors: str, updated: str, arxiv_id: str, abstra
     </tr>
 </table>
 """
-    return block_template.format(title=title, authors=authors, updated=updated,
+    return block_template.format(idx=idx, title=title, authors=authors, 
+                                 keyword=keyword, updated=updated,
                                  arxiv_id=arxiv_id, abstract=abstract, pdf_url=pdf_url)
 
 
-def render_email(papers:list[Result]):
+def render_email(papers: Dict[str, list[Result]]):
     parts = []
     if len(papers) == 0 :
         return framework.replace('__CONTENT__', get_empty_html())
-    
-    for p in tqdm(papers,desc='Rendering Email'):
-        authors = [a.name for a in p.authors[:5]]
-        authors = ', '.join(authors)
-        if len(p.authors) > 5:
-            authors += ', ...'
-        parts.append(get_block_html(p.title, authors, p.updated.strftime('%Y-%m-%d %H:%M:%S'),
-                                    p.entry_id.split('/')[-1], p.summary, p.pdf_url))
+    total_papers = sum(len(p) for p in papers.values())
+    pbar = tqdm(total=total_papers, desc='Rendering Email')
+    idx = 0
+    for keyword, paper_list in papers.items():
+        for p in paper_list:
+            authors = [a.name for a in p.authors[:5]]
+            authors = ', '.join(authors)
+            if len(p.authors) > 5:
+                authors += ', ...'
+            idx += 1
+            parts.append(get_block_html(idx, p.title, authors, keyword,
+                                        p.updated.strftime('%Y-%m-%d %H:%M:%S'),
+                                        p.entry_id.split('/')[-1], p.summary, p.pdf_url))
+            pbar.update(1)
+    pbar.close()
 
     content = '<br>' + '</br><br>'.join(parts) + '</br>'
     return framework.replace('__CONTENT__', content)
@@ -108,7 +117,7 @@ def send_email(sender:str, receiver:str, password:str,
 
     logger.info(f"Connecting to SMTP server {smtp_server}:{smtp_port}...")
     try:
-        server = smtplib.SMTP(smtp_server, smtp_port, timeout=20)
+        server = smtplib.SMTP(smtp_server, smtp_port, timeout=5)
         server.starttls()
     except Exception as e:
         logger.warning(f"Failed to use TLS. {e}")
